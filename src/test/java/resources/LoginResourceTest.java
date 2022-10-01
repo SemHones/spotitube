@@ -1,12 +1,10 @@
 package resources;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import services.LoginService;
-import services.dto.LoginRequestDTO;
+import resources.dto.LoginRequestDTO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 public class LoginResourceTest {

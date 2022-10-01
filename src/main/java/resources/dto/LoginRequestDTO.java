@@ -1,4 +1,4 @@
-package services.dto;
+package resources.dto;
 
 public class LoginRequestDTO {
     private String user;

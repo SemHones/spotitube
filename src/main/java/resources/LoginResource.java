@@ -7,9 +7,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import services.dto.LoginRequestDTO;
+import resources.dto.LoginRequestDTO;
 import services.LoginService;
-import services.dto.LoginResponseDTO;
+import resources.dto.LoginResponseDTO;
 
 @Path("/login")
 public class LoginResource {

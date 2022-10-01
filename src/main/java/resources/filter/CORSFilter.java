@@ -1,4 +1,4 @@
-package services.filter;
+package resources.filter;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
