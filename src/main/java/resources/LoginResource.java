@@ -26,6 +26,7 @@ public class LoginResource {
             return Response.status(401).build();
 
         } else {
+            //TODO: create way to get token from user
             var loginResponseDTO = new LoginResponseDTO(username, "1234-1234");
 
             var response = Response.ok(loginResponseDTO).build();
