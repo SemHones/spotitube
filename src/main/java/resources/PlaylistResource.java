@@ -8,8 +8,6 @@ import resources.dto.PlaylistsResponseDTO;
 import services.PlaylistService;
 import services.UserService;
 
-import java.util.List;
-
 @Path("/playlists")
 public class PlaylistResource {
 
@@ -18,8 +16,9 @@ public class PlaylistResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPlaylist(@QueryParam("token") String token){
-        PlaylistsResponseDTO playlistsResponseDTO = playlistService.getPlaylists(userService.verifyToken(token));
+    public Response getPlaylists(@QueryParam("token") String token){
+        userService.verifyToken(token);
+        PlaylistsResponseDTO playlistsResponseDTO = playlistService.getPlaylists();
         return Response.ok(playlistsResponseDTO).build();
     }
 

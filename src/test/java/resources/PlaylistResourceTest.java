@@ -3,7 +3,6 @@ package resources;
 import datasource.objects.Playlist;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import resources.dto.PlaylistRequestDTO;
 import resources.dto.PlaylistsResponseDTO;
 import resources.exceptions.TokenException;
 import services.PlaylistService;
@@ -52,10 +51,10 @@ public class PlaylistResourceTest {
         itemsToReturn.setPlaylists(playlists);
 
         when(mockedUserService.verifyToken(anyString())).thenReturn(1);
-        when(mockedPlaylistService.getPlaylists(1)).thenReturn(itemsToReturn);
+        when(mockedPlaylistService.getPlaylists()).thenReturn(itemsToReturn);
 
         // Act
-        var response = sut.getPlaylist(correct_token);
+        var response = sut.getPlaylists(correct_token);
 
         // Assert
         assertEquals(HTTP_OK, response.getStatus());
@@ -67,10 +66,10 @@ public class PlaylistResourceTest {
     @Test
     void getPlaylistWithResponseUnauthorized() {
         // Arrange
-        doThrow(TokenException.class).when(sut.getPlaylist(anyString()));
+        doThrow(TokenException.class).when(sut.getPlaylists(anyString()));
 
         // ACt & Assert
-        assertThrows(TokenException.class, () -> sut.getPlaylist(false_token));
+        assertThrows(TokenException.class, () -> sut.getPlaylists(false_token));
 
     }
 }
