@@ -1,10 +1,16 @@
 package services;
 
+import datasource.dao.UserDAO;
+import datasource.objects.User;
+import resources.dto.LoginResponseDTO;
+
 public class LoginService {
-    public String login(String username, String password){
-        if (username.equals("sem") && password.equals("123")){
-            return "Sem Hones";
+    private UserDAO userDao = new UserDAO();
+    public LoginResponseDTO login(String username, String password){
+        User user = userDao.getSingleUser(username, password);
+        if (!user.getUsername().isEmpty()){
+            return new LoginResponseDTO(user.getUsername(), user.getToken());
         }
-        return "";
+        return new LoginResponseDTO("", "");
     }
 }

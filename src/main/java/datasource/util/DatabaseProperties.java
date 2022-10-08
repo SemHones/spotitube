@@ -1,5 +1,7 @@
 package datasource.util;
 
+import jakarta.inject.Inject;
+
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -9,6 +11,7 @@ public class DatabaseProperties {
     private Logger logger = Logger.getLogger(getClass().getName());
     private Properties properties;
 
+    @Inject
     public DatabaseProperties() {
         properties = new Properties();
         try {

@@ -5,7 +5,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import resources.dto.TrackResponseDTO;
-import services.PlaylistService;
 import services.TrackService;
 import services.UserService;
 

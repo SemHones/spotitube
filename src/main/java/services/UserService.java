@@ -1,13 +1,17 @@
 package services;
 
+import datasource.dao.UserDAO;
+import datasource.objects.User;
 import resources.exceptions.TokenException;
 
 public class UserService {
 
+    UserDAO userDAO = new UserDAO();
+
     public int verifyToken(String token) throws TokenException {
-        //TODO: create way to get token from user
-        if(token.equals("1234-1234")){
-            return 1;
+        User user = userDAO.getSingleUserByToken(token);
+        if(!user.getUsername().isEmpty()){
+            return user.getId();
         }
         throw new TokenException();
     }

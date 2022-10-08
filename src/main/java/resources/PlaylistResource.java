@@ -17,8 +17,8 @@ public class PlaylistResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPlaylists(@QueryParam("token") String token){
-        userService.verifyToken(token);
-        PlaylistsResponseDTO playlistsResponseDTO = playlistService.getPlaylists();
+        int userID = userService.verifyToken(token);
+        PlaylistsResponseDTO playlistsResponseDTO = playlistService.getPlaylists(userID);
         return Response.ok(playlistsResponseDTO).build();
     }
 

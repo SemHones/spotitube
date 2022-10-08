@@ -20,19 +20,12 @@ public class LoginResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginRequestDTO loginRequestDTO) {
-        var username = loginService.login(loginRequestDTO.getUser(), loginRequestDTO.getPassword());
+        LoginResponseDTO loginResponse = loginService.login(loginRequestDTO.getUser(), loginRequestDTO.getPassword());
 
-        if (username.isEmpty()) {
+        if (loginResponse.getUser().isEmpty()) {
             return Response.status(401).build();
-
-        } else {
-            //TODO: create way to get token from user
-            var loginResponseDTO = new LoginResponseDTO(username, "1234-1234");
-
-            var response = Response.ok(loginResponseDTO).build();
-
-            return response;
         }
+        return Response.ok(loginResponse).build();
     }
 
     @Inject

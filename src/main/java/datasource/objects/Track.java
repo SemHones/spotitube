@@ -4,22 +4,23 @@ public class Track {
     private int id;
     private String title;
     private String performer;
-    private int duration;
     private String album;
     private String publicationDate;
     private String description;
-//    private boolean offlineAvailable;
-    private int playcount;
+    private int duration;
+    private int playCount;
+    private boolean offlineAvailable;
 
-    public Track(int id, String title, String performer, int duration, String album, String publicationDate, String description, int playcount) {
+    public Track(int id, String title, String performer, String album, String publicationDate, String description, int duration, int playCount, boolean offlineAvailable) {
         this.id = id;
         this.title = title;
         this.performer = performer;
-        this.duration = duration;
         this.album = album;
         this.publicationDate = publicationDate;
         this.description = description;
-        this.playcount = playcount;
+        this.duration = duration;
+        this.playCount = playCount;
+        this.offlineAvailable = offlineAvailable;
     }
 
     public int getId() {
@@ -46,14 +47,6 @@ public class Track {
         this.performer = performer;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
     public String getAlbum() {
         return album;
     }
@@ -78,11 +71,27 @@ public class Track {
         this.description = description;
     }
 
-    public int getPlaycount() {
-        return playcount;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setPlaycount(int playcount) {
-        this.playcount = playcount;
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getPlayCount() {
+        return playCount;
+    }
+
+    public void setPlayCount(int playCount) {
+        this.playCount = playCount;
+    }
+
+    public boolean isOfflineAvailable() {
+        return offlineAvailable;
+    }
+
+    public void setOfflineAvailable(boolean offlineAvailable) {
+        this.offlineAvailable = offlineAvailable;
     }
 }

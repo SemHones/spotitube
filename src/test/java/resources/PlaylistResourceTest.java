@@ -43,15 +43,15 @@ public class PlaylistResourceTest {
         var itemsToReturn = new PlaylistsResponseDTO();
         List<Playlist> playlists = new ArrayList<Playlist>();
 
-        Playlist playlist1 = new Playlist();
-        playlist1.setName("playlist one");
+//        Playlist playlist1 = new Playlist();
+//        playlist1.setName("playlist one");
 
-        playlists.add(playlist1);
+//        playlists.add(playlist1);
 
         itemsToReturn.setPlaylists(playlists);
 
-        when(mockedUserService.verifyToken(anyString())).thenReturn(1);
-        when(mockedPlaylistService.getPlaylists()).thenReturn(itemsToReturn);
+//        when(mockedUserService.verifyToken(anyString())).thenReturn(1);
+//        when(mockedPlaylistService.getPlaylists()).thenReturn(itemsToReturn);
 
         // Act
         var response = sut.getPlaylists(correct_token);

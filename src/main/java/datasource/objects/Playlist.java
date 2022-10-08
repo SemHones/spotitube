@@ -5,9 +5,16 @@ import java.util.List;
 public class Playlist {
     private int id;
     private String name;
+    private boolean owner;
     private int ownerId;
-//    private boolean owner = false;
     private List<Track> tracks;
+
+    public Playlist(int id, String name, boolean owner, int ownerId) {
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
+        this.ownerId = ownerId;
+    }
 
     public int getId() {
         return id;
@@ -23,6 +30,14 @@ public class Playlist {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isOwner() {
+        return owner;
+    }
+
+    public void setOwner(boolean owner) {
+        this.owner = owner;
     }
 
     public int getOwnerId() {
