@@ -5,8 +5,8 @@ import java.util.List;
 public class Playlist {
     private int id;
     private String name;
-    private boolean owner;
     private int ownerId;
+    private boolean owner;
     private List<Track> tracks;
 
     public Playlist(int id, String name) {
@@ -18,8 +18,8 @@ public class Playlist {
     public Playlist(int id, String name, int ownerId) {
         this.id = id;
         this.name = name;
-        this.owner = true;
         this.ownerId = ownerId;
+        this.owner = true;
     }
 
     public int getId() {
@@ -38,20 +38,20 @@ public class Playlist {
         this.name = name;
     }
 
-    public boolean isOwner() {
-        return owner;
-    }
-
-    public void setOwner(boolean owner) {
-        this.owner = owner;
-    }
-
     public int getOwnerId() {
         return ownerId;
     }
 
     public void setOwnerId(int ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public boolean getOwner() {
+        return owner;
+    }
+
+    public void setOwner(boolean owner) {
+        this.owner = owner;
     }
 
     public List<Track> getTracks() {
