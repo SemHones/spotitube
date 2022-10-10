@@ -8,14 +8,14 @@ import resources.dto.TrackResponseDTO;
 import services.TrackService;
 import services.UserService;
 
-@Path("/tracks")
+@Path("playlists/{playlistId}/tracks")
 public class TrackResource {
     private TrackService trackService;
     private UserService userService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTracks(@QueryParam("playlistID") int playlistID, @QueryParam("token") String token) {
+    public Response getTracks(@QueryParam("token") String token, @PathParam("playlistId") int playlistID) {
         userService.verifyToken(token);
         TrackResponseDTO tracksResponseDTO = trackService.getTracks(playlistID);
         return Response.ok(tracksResponseDTO).build();
