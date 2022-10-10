@@ -2,7 +2,7 @@ package services;
 
 import datasource.dao.UserDAO;
 import datasource.objects.User;
-import resources.exceptions.TokenException;
+import services.exceptions.TokenException;
 
 public class UserService {
 

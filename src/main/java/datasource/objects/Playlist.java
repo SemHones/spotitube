@@ -9,10 +9,16 @@ public class Playlist {
     private int ownerId;
     private List<Track> tracks;
 
-    public Playlist(int id, String name, boolean owner, int ownerId) {
+    public Playlist(int id, String name) {
         this.id = id;
         this.name = name;
-        this.owner = owner;
+        this.owner = false;
+    }
+
+    public Playlist(int id, String name, int ownerId) {
+        this.id = id;
+        this.name = name;
+        this.owner = true;
         this.ownerId = ownerId;
     }
 

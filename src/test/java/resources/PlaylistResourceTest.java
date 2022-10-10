@@ -4,7 +4,7 @@ import datasource.objects.Playlist;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import resources.dto.PlaylistsResponseDTO;
-import resources.exceptions.TokenException;
+import services.exceptions.TokenException;
 import services.PlaylistService;
 import services.UserService;
 

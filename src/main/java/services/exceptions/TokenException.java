@@ -1,4 +1,4 @@
-package resources.exceptions;
+package services.exceptions;
 
 public class TokenException extends RuntimeException{
 }

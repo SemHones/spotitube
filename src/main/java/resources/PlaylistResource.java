@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import resources.dto.PlaylistRequestDTO;
 import resources.dto.PlaylistsResponseDTO;
 import services.PlaylistService;
 import services.UserService;
@@ -19,6 +20,16 @@ public class PlaylistResource {
     public Response getPlaylists(@QueryParam("token") String token){
         int userID = userService.verifyToken(token);
         PlaylistsResponseDTO playlistsResponseDTO = playlistService.getPlaylists(userID);
+        return Response.ok(playlistsResponseDTO).build();
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response changePlaylistName(@QueryParam("token") String token, @PathParam("id") int playlistID, PlaylistRequestDTO playlist) {
+        int userID = userService.verifyToken(token);
+        PlaylistsResponseDTO playlistsResponseDTO = playlistService.changePlaylistName(userID, playlist.getName(), playlistID);
         return Response.ok(playlistsResponseDTO).build();
     }
 
