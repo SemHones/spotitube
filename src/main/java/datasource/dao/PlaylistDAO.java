@@ -25,7 +25,7 @@ public class PlaylistDAO extends DefaultDAO{
     }
 
     public Playlist getPlaylist(int playlistId){
-        Playlist playlist = new Playlist(0, "");
+        Playlist emptyPlaylist = new Playlist(0, "");
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
             pstmt = connection.prepareStatement(selectPlaylistWithId);
@@ -37,16 +37,16 @@ public class PlaylistDAO extends DefaultDAO{
                         rs.getString("name"),
                         rs.getInt("ownerId")
                 );
-                item.setTracks(trackDAO.getTracksFromPlaylist(item.getId()));
-                playlist = item;
-                return playlist;
+                boolean insidePlaylist = true;
+                item.setTracks(trackDAO.getTracks(item.getId(), insidePlaylist));
+                return item;
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
         } finally {
             closeConnections();
         }
-        return playlist;
+        return emptyPlaylist;
     }
 
     public List<Playlist> getAllPlaylistFromUser(int userId){
@@ -62,7 +62,8 @@ public class PlaylistDAO extends DefaultDAO{
                     rs.getString("name"),
                     rs.getInt("ownerId")
                 );
-                item.setTracks(trackDAO.getTracksFromPlaylist(item.getId()));
+                boolean insidePlaylist = true;
+                item.setTracks(trackDAO.getTracks(item.getId(), insidePlaylist));
                 playlists.add(item);
             }
         } catch (SQLException e) {
