@@ -70,7 +70,7 @@ class PlaylistResourceTest {
     @Test
     void checkIfTokenIsNotTheSame() {
         // Arrange
-        Mockito.when(userService.verifyToken(Mockito.anyString())).thenThrow(TokenException.class);
+        Mockito.when(userService.verifyToken(anyString())).thenThrow(TokenException.class);
 
         // Act
 
@@ -93,7 +93,7 @@ class PlaylistResourceTest {
     @Test
     void throwExceptionGetPlaylists() {
         // Arrange
-        Mockito.when(playlistService.getPlaylists(Mockito.anyInt())).thenThrow(TokenException.class);
+        Mockito.when(playlistService.getPlaylists(anyInt())).thenThrow(TokenException.class);
 
         // Act
 

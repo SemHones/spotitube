@@ -1,13 +1,14 @@
 package services;
 
 import datasource.dao.TrackDAO;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 import resources.dto.TrackRequestDTO;
 import resources.dto.TrackResponseDTO;
 
 public class TrackService {
 
-    TrackDAO trackDAO = new TrackDAO();
+    private TrackDAO trackDAO;
 
     public TrackResponseDTO getTracksFromPlaylist(int playlistId){
         TrackResponseDTO tracks = new TrackResponseDTO();
@@ -48,5 +49,10 @@ public class TrackService {
             return tracks;
         }
         throw new NotFoundException();
+    }
+
+    @Inject
+    public void setTrackDAO(TrackDAO trackDAO) {
+        this.trackDAO = trackDAO;
     }
 }
