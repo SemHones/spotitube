@@ -10,14 +10,12 @@ import java.util.logging.Level;
 
 public class PlaylistDAO extends DefaultDAO{
 
-    private final String selectPlaylistWithId = "select * from spotitube.playlist where id = ?";
-    private final String selectAllPlaylistFromUser = "select * from spotitube.playlist where ownerId = ?";
-    private final String checkPlaylistOwner = "select * from spotitube.playlist where id = ? and ownerId = ?";
-    private final String updateExistingPlaylist = "update spotitube.playlist set name = ? where id = ?";
-    private final String createNewPlaylist = "insert into spotitube.playlist (name, owner, ownerId) values (?, ?, ?)";
-    private final String deletePlaylist = "delete from spotitube.playlist where id = ?";
-
-    private List<Playlist> playlists;
+    private static final String SELECT_PLAYLIST_WHERE_ID = "select * from spotitube.playlist where id = ?";
+    private static final String SELECT_PLAYLISTS_FROM_USER = "select * from spotitube.playlist where ownerId = ?";
+    private static final String SELECT_PLAYLIST_WHERE_ID_AND_OWNER_ID = "select * from spotitube.playlist where id = ? and ownerId = ?";
+    private static final String UPDATE_EXISTING_PLAYLIST_NAME = "update spotitube.playlist set name = ? where id = ?";
+    private static final String CREATE_NEW_PLAYLIST = "insert into spotitube.playlist (name, owner, ownerId) values (?, ?, ?)";
+    private static final String DELETE_PLAYLIST_WHERE_ID = "delete from spotitube.playlist where id = ?";
     private TrackDAO trackDAO = new TrackDAO();
 
     public PlaylistDAO(){
@@ -28,7 +26,7 @@ public class PlaylistDAO extends DefaultDAO{
         Playlist emptyPlaylist = new Playlist(0, "");
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(selectPlaylistWithId);
+            pstmt = connection.prepareStatement(SELECT_PLAYLIST_WHERE_ID);
             pstmt.setInt(1, playlistId);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -42,7 +40,7 @@ public class PlaylistDAO extends DefaultDAO{
                 return item;
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -50,10 +48,10 @@ public class PlaylistDAO extends DefaultDAO{
     }
 
     public List<Playlist> getAllPlaylistFromUser(int userId){
-        playlists = new ArrayList<>();
+        List<Playlist> playlists = new ArrayList<>();
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(selectAllPlaylistFromUser);
+            pstmt = connection.prepareStatement(SELECT_PLAYLISTS_FROM_USER);
             pstmt.setInt(1, userId);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -67,7 +65,7 @@ public class PlaylistDAO extends DefaultDAO{
                 playlists.add(item);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -77,7 +75,7 @@ public class PlaylistDAO extends DefaultDAO{
     public boolean checkPlaylistOwner(int userId, int playlistId){
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(checkPlaylistOwner);
+            pstmt = connection.prepareStatement(SELECT_PLAYLIST_WHERE_ID_AND_OWNER_ID);
 
             pstmt.setInt(1, playlistId);
             pstmt.setInt(2, userId);
@@ -87,7 +85,7 @@ public class PlaylistDAO extends DefaultDAO{
                 return true;
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -97,14 +95,14 @@ public class PlaylistDAO extends DefaultDAO{
     public void editPlaylistName(Playlist playlist){
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(updateExistingPlaylist);
+            pstmt = connection.prepareStatement(UPDATE_EXISTING_PLAYLIST_NAME);
 
             pstmt.setString(1, playlist.getName());
             pstmt.setInt(2, playlist.getId());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -113,7 +111,7 @@ public class PlaylistDAO extends DefaultDAO{
     public void createPlaylist(Playlist playlist){
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(createNewPlaylist);
+            pstmt = connection.prepareStatement(CREATE_NEW_PLAYLIST);
 
             pstmt.setString(1, playlist.getName());
             pstmt.setBoolean(2, playlist.getOwner());
@@ -121,7 +119,7 @@ public class PlaylistDAO extends DefaultDAO{
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -130,13 +128,13 @@ public class PlaylistDAO extends DefaultDAO{
     public void deletePlaylist(int playlistId){
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(deletePlaylist);
+            pstmt = connection.prepareStatement(DELETE_PLAYLIST_WHERE_ID);
 
             pstmt.setInt(1, playlistId);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }

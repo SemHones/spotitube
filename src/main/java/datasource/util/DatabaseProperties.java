@@ -17,7 +17,7 @@ public class DatabaseProperties {
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("database.properties"));
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Can't access property file database.properties", e);
+            logger.log(Level.SEVERE, "Can''t access property file database.properties", e);
         }
     }
 

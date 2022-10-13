@@ -10,11 +10,6 @@ public class PlaylistsResponseDTO {
     private List<Playlist> playlists = new ArrayList<Playlist>();
     private int length;
 
-
-    public PlaylistsResponseDTO() {
-
-    }
-
     public List<Playlist> getPlaylists() {
         return playlists;
     }

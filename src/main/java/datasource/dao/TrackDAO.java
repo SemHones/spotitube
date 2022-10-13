@@ -9,14 +9,12 @@ import java.util.logging.Level;
 
 public class TrackDAO extends DefaultDAO{
 
-    private final String selectTrackById = "select * from spotitube.track where id = ?";
-    private final String selectTracksFromPlaylist = "select t.* from spotitube.track t inner join spotitube.track_on_playlist tp on t.id = tp.trackId where tp.playlistId = ?";
-    private final String selectTracksOutsidePlaylist = "select * from spotitube.track where id not in (select t.id from spotitube.track t inner join spotitube.track_on_playlist tp on t.id = tp.trackId where tp.playlistId = ?)";
-    private final String addTrackToPlaylist = "insert into spotitube.track_on_playlist (playlistId, trackId) values (?, ?)";
-    private final String updateTrackOfflineAvailable = "update spotitube.track set offlineAvailable = ? where id = ?";
-    private final String deleteTrackFromPlaylist = "delete from spotitube.track_on_playlist where playlistId = ? and trackId = ?";
-
-    private List<Track> tracks;
+    private static final String SELECT_TRACKS_WHERE_ID = "select * from spotitube.track where id = ?";
+    private static final String SELECT_TRACKS_FROM_PLAYLIST = "select t.* from spotitube.track t inner join spotitube.track_on_playlist tp on t.id = tp.trackId where tp.playlistId = ?";
+    private static final String SELECT_TRACKS_OUTSIDE_PLAYLIST = "select * from spotitube.track where id not in (select t.id from spotitube.track t inner join spotitube.track_on_playlist tp on t.id = tp.trackId where tp.playlistId = ?)";
+    private static final String ADD_TRACK_TO_PLAYLIST = "insert into spotitube.track_on_playlist (playlistId, trackId) values (?, ?)";
+    private static final String UPDATE_TRACK_OFFLINE_AVAILABLE = "update spotitube.track set offlineAvailable = ? where id = ?";
+    private static final String DELETE_TRACK_FROM_PLAYLIST = "delete from spotitube.track_on_playlist where playlistId = ? and trackId = ?";
 
     public TrackDAO(){
         super();
@@ -26,13 +24,13 @@ public class TrackDAO extends DefaultDAO{
         Track emptyTrack = new Track(0, "","","","","", 0, 0, false);
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(selectTrackById);
+            pstmt = connection.prepareStatement(SELECT_TRACKS_WHERE_ID);
 
             pstmt.setInt(1, trackId);
 
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                Track item = new Track(
+                return new Track(
                     rs.getInt("id"),
                     rs.getString("title"),
                     rs.getString("performer"),
@@ -43,10 +41,9 @@ public class TrackDAO extends DefaultDAO{
                     rs.getInt("playCount"),
                     rs.getBoolean("offlineAvailable")
                 );
-                return item;
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -54,14 +51,14 @@ public class TrackDAO extends DefaultDAO{
     }
 
     public List<Track> getTracks(int playlistId, boolean insidePlaylist) {
-        tracks = new ArrayList<>();
+        List<Track> tracks = new ArrayList<>();
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
             if(insidePlaylist){
-                pstmt = connection.prepareStatement(selectTracksFromPlaylist);
+                pstmt = connection.prepareStatement(SELECT_TRACKS_FROM_PLAYLIST);
             }
             else{
-                pstmt = connection.prepareStatement(selectTracksOutsidePlaylist);
+                pstmt = connection.prepareStatement(SELECT_TRACKS_OUTSIDE_PLAYLIST);
             }
 
             pstmt.setInt(1, playlistId);
@@ -82,7 +79,7 @@ public class TrackDAO extends DefaultDAO{
                 tracks.add(item);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -93,14 +90,14 @@ public class TrackDAO extends DefaultDAO{
     public void addTrackToPlaylist(int playlistId, int trackId){
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(addTrackToPlaylist);
+            pstmt = connection.prepareStatement(ADD_TRACK_TO_PLAYLIST);
 
             pstmt.setInt(1, playlistId);
             pstmt.setInt(2, trackId);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -109,14 +106,14 @@ public class TrackDAO extends DefaultDAO{
     public void setTrackOfflineAvailable(boolean offlineAvailable, int trackId){
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(updateTrackOfflineAvailable);
+            pstmt = connection.prepareStatement(UPDATE_TRACK_OFFLINE_AVAILABLE);
 
             pstmt.setBoolean(1, offlineAvailable);
             pstmt.setInt(2, trackId);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }
@@ -125,14 +122,14 @@ public class TrackDAO extends DefaultDAO{
     public void deleteTrack(int playlistId, int trackId){
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
-            pstmt = connection.prepareStatement(deleteTrackFromPlaylist);
+            pstmt = connection.prepareStatement(DELETE_TRACK_FROM_PLAYLIST);
 
             pstmt.setInt(1, playlistId);
             pstmt.setInt(2, trackId);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+            logError(e);
         } finally {
             closeConnections();
         }

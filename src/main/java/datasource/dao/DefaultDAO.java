@@ -28,4 +28,8 @@ public class DefaultDAO {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
+
+    protected void logError(SQLException e){
+        LOGGER.log(Level.SEVERE, "Error communicating with database " + databaseProperties.connectionString(), e);
+    }
 }
