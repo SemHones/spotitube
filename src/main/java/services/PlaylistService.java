@@ -3,6 +3,7 @@ package services;
 import datasource.dao.PlaylistDAO;
 import datasource.objects.Playlist;
 import datasource.objects.Track;
+import jakarta.inject.Inject;
 import resources.dto.PlaylistResponseDTO;
 import services.exceptions.UnauthorizedException;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class PlaylistService {
 
-    private PlaylistDAO playlistDAO = new PlaylistDAO();
+    private PlaylistDAO playlistDAO;
 
     public PlaylistResponseDTO getPlaylists(int userId){
         PlaylistResponseDTO playlistResponseDTO = new PlaylistResponseDTO();
@@ -54,5 +55,10 @@ public class PlaylistService {
             return getPlaylists(userId);
         }
         throw new UnauthorizedException();
+    }
+
+    @Inject
+    public void setPlaylistDAO(PlaylistDAO playlistDAO) {
+        this.playlistDAO = playlistDAO;
     }
 }
