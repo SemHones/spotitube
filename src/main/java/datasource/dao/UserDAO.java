@@ -4,7 +4,6 @@ import datasource.objects.User;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
 public class UserDAO extends DefaultDAO{
     private static final String SELECT_USER_WHERE_USERNAME_AND_PASSWORD =  "select * from spotitube.user where username = ? and password = ?";
