@@ -5,7 +5,7 @@ import datasource.objects.Playlist;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistsResponseDTO {
+public class PlaylistResponseDTO {
 
     private List<Playlist> playlists = new ArrayList<Playlist>();
     private int length;

@@ -3,7 +3,7 @@ package services;
 import datasource.dao.PlaylistDAO;
 import datasource.objects.Playlist;
 import datasource.objects.Track;
-import resources.dto.PlaylistsResponseDTO;
+import resources.dto.PlaylistResponseDTO;
 import services.exceptions.UnauthorizedException;
 
 import java.util.List;
@@ -12,12 +12,12 @@ public class PlaylistService {
 
     private PlaylistDAO playlistDAO = new PlaylistDAO();
 
-    public PlaylistsResponseDTO getPlaylists(int userId){
-        PlaylistsResponseDTO playlistsResponseDTO = new PlaylistsResponseDTO();
+    public PlaylistResponseDTO getPlaylists(int userId){
+        PlaylistResponseDTO playlistResponseDTO = new PlaylistResponseDTO();
 
-        playlistsResponseDTO.setPlaylists(playlistDAO.getAllPlaylistFromUser(userId));
-        playlistsResponseDTO.setLength(calculateDurationOfAllPlaylist(playlistsResponseDTO.getPlaylists()));
-        return playlistsResponseDTO;
+        playlistResponseDTO.setPlaylists(playlistDAO.getAllPlaylistFromUser(userId));
+        playlistResponseDTO.setLength(calculateDurationOfAllPlaylist(playlistResponseDTO.getPlaylists()));
+        return playlistResponseDTO;
     }
 
     public int calculateDurationOfAllPlaylist(List<Playlist> playlists){
@@ -31,7 +31,7 @@ public class PlaylistService {
         return totalDuration;
     }
 
-    public PlaylistsResponseDTO editPlaylistName(int playlistId, String name, int userId) throws UnauthorizedException {
+    public PlaylistResponseDTO editPlaylistName(int playlistId, String name, int userId) throws UnauthorizedException {
         Playlist playlistObject = new Playlist(playlistId, name, userId);
 
         if(playlistDAO.checkPlaylistOwner(userId, playlistId)){
@@ -41,14 +41,14 @@ public class PlaylistService {
         throw new UnauthorizedException();
     }
 
-    public PlaylistsResponseDTO createPlaylist(int playlistId, String name, int userId){
+    public PlaylistResponseDTO createPlaylist(int playlistId, String name, int userId){
         Playlist playlistObject = new Playlist(playlistId, name, userId);
 
         playlistDAO.createPlaylist(playlistObject);
         return getPlaylists(userId);
     }
 
-    public PlaylistsResponseDTO deletePlaylist(int playlistId, int userId) throws UnauthorizedException{
+    public PlaylistResponseDTO deletePlaylist(int playlistId, int userId) throws UnauthorizedException{
         if(playlistDAO.checkPlaylistOwner(userId, playlistId)){
             playlistDAO.deletePlaylist(playlistId);
             return getPlaylists(userId);
