@@ -8,19 +8,19 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import resources.dto.LoginRequestDTO;
-import services.LoginService;
 import resources.dto.LoginResponseDTO;
+import services.UserService;
 
 @Path("/login")
-public class LoginResource {
+public class UserResource {
 
-    private LoginService loginService;
+    private UserService userService;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginRequestDTO loginRequestDTO) {
-        LoginResponseDTO loginResponse = loginService.login(loginRequestDTO.getUser(), loginRequestDTO.getPassword());
+        LoginResponseDTO loginResponse = userService.login(loginRequestDTO.getUser(), loginRequestDTO.getPassword());
 
         if (loginResponse.getUser().isEmpty()) {
             return Response.status(401).build();
@@ -29,7 +29,7 @@ public class LoginResource {
     }
 
     @Inject
-    public void setLoginService(LoginService loginService1) {
-        loginService = loginService1;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

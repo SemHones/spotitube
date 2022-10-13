@@ -14,21 +14,20 @@ public class UserDAO extends DefaultDAO{
     public UserDAO(){ super(); }
 
     public User getSingleUser(String username, String password){
-        user = new User(0, "", "", "");
+        this.user = new User(0, "", "", "");
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
             pstmt = connection.prepareStatement(SELECT_USER_WHERE_USERNAME_AND_PASSWORD);
             pstmt.setString(1, username);
-            pstmt.setString(1, password);
+            pstmt.setString(2, password);
             rs = pstmt.executeQuery();
             while (rs.next()){
-                User newUser = new User(
+                return new User(
                     rs.getInt("id"),
                     rs.getString("username"),
                     rs.getString("token"),
                     rs.getString("password")
                 );
-                this.user = newUser;
             }
 
         } catch (SQLException e) {
@@ -40,20 +39,19 @@ public class UserDAO extends DefaultDAO{
     }
 
     public User getSingleUserByToken(String token){
-        user = new User(0, "", "", "");
+        this.user = new User(0, "", "", "");
         try {
             connection = DriverManager.getConnection(databaseProperties.connectionString());
             pstmt = connection.prepareStatement(SELECT_USER_WHERE_TOKEN);
             pstmt.setString(1, token);
             rs = pstmt.executeQuery();
             while (rs.next()){
-                User newUser = new User(
+                return new User(
                         rs.getInt("id"),
                         rs.getString("username"),
                         rs.getString("token"),
                         rs.getString("password")
                 );
-                this.user = newUser;
             }
 
         } catch (SQLException e) {
