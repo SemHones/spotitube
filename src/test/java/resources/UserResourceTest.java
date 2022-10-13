@@ -39,18 +39,28 @@ class UserResourceTest {
 
     @Test
     void loginCredentialsAreOkTest() throws UnauthorizedException {
-
+        // Arrange
         Mockito.when(userService.login(loginRequestDTO.getUser(), loginRequestDTO.getPassword())).thenReturn(loginResponseDTO);
 
+        // Act
         Response response = userResource.login(loginRequestDTO);
+
+        // Assert
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
     void loginCredentialsAreNotOkTest() throws UnauthorizedException {
+        // Arrange
+        LoginRequestDTO emptyLoginRequestDTO = new LoginRequestDTO();
+        emptyLoginRequestDTO.setUser("");
+        emptyLoginRequestDTO.setPassword("");
 
-        Mockito.when(userService.login(Mockito.anyString(), Mockito.anyString())).thenThrow(UnauthorizedException.class);
+        Mockito.when(userService.login(anyString(), anyString())).thenThrow(UnauthorizedException.class);
 
-        assertThrows(UnauthorizedException.class, () -> userResource.login(loginRequestDTO));
+        // Act
+
+        // Assert
+        assertThrows(UnauthorizedException.class, () -> userResource.login(emptyLoginRequestDTO));
     }
 }
