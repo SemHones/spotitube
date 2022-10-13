@@ -8,7 +8,7 @@ import java.util.List;
 public class PlaylistsResponseDTO {
 
     private List<Playlist> playlists = new ArrayList<Playlist>();
-//    private int length;
+    private int length;
 
 
     public PlaylistsResponseDTO() {
@@ -23,11 +23,11 @@ public class PlaylistsResponseDTO {
         this.playlists = playlists;
     }
 
-//    public int getLength() {
-//        return length;
-//    }
-//
-//    public void setLength(int length) {
-//        this.length = length;
-//    }
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
 }
