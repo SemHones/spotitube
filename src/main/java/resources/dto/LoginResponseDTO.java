@@ -16,4 +16,12 @@ public class LoginResponseDTO {
     public String getToken() {
         return token;
     }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
