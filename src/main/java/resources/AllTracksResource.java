@@ -12,13 +12,13 @@ import services.TrackService;
 import services.UserService;
 
 @Path("/tracks")
-public class AllTracks {
+public class AllTracksResource {
     private TrackService trackService;
     private UserService userService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllTracks(@QueryParam("forPlaylist") int playlistID, @QueryParam("token") String token) {
+    public Response getAllTracksOutsidePlaylist(@QueryParam("token") String token, @QueryParam("forPlaylist") int playlistID) {
         userService.verifyToken(token);
         TrackResponseDTO tracksResponseDTO = trackService.getTracksOutsidePlaylist(playlistID);
         return Response.ok(tracksResponseDTO).build();

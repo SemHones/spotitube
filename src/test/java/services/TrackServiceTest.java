@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import resources.dto.TrackRequestDTO;
 import resources.dto.TrackResponseDTO;
-import services.exceptions.TokenException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 
 class TrackServiceTest {
@@ -78,7 +76,7 @@ class TrackServiceTest {
         Mockito.when(trackDAO.getTrack(TRACK_ID)).thenReturn(trackWithTitle);
 
         // Act
-        TrackResponseDTO tracksResponseDTO = trackService.addTrack(PLAYLIST_ID, trackRequestDTO);
+        TrackResponseDTO tracksResponseDTO = trackService.addTrackToPlaylist(PLAYLIST_ID, trackRequestDTO);
 
         // Assert
         assertNotNull(tracksResponseDTO.getTracks());
@@ -92,7 +90,7 @@ class TrackServiceTest {
         // Act
 
         // Assert
-        assertThrows(NotFoundException.class, () -> trackService.addTrack(anyInt(), trackRequestDTO));
+        assertThrows(NotFoundException.class, () -> trackService.addTrackToPlaylist(anyInt(), trackRequestDTO));
     }
 
     @Test
@@ -102,7 +100,7 @@ class TrackServiceTest {
         Mockito.when(trackDAO.getTrack(TRACK_ID)).thenReturn(trackWithTitle);
 
         // Act
-        TrackResponseDTO tracksResponseDTO = trackService.deleteTrack(PLAYLIST_ID, TRACK_ID);
+        TrackResponseDTO tracksResponseDTO = trackService.removeTrackFromPlaylist(PLAYLIST_ID, TRACK_ID);
 
         // Assert
         assertNotNull(tracksResponseDTO.getTracks());
@@ -116,6 +114,6 @@ class TrackServiceTest {
         // Act
 
         // Assert
-        assertThrows(NotFoundException.class, () -> trackService.deleteTrack(PLAYLIST_ID, anyInt()));
+        assertThrows(NotFoundException.class, () -> trackService.removeTrackFromPlaylist(PLAYLIST_ID, anyInt()));
     }
 }

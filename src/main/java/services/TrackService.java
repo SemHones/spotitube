@@ -26,7 +26,7 @@ public class TrackService {
         return tracks;
     }
 
-    public TrackResponseDTO addTrack(int playlistId, TrackRequestDTO track) throws NotFoundException {
+    public TrackResponseDTO addTrackToPlaylist(int playlistId, TrackRequestDTO track) throws NotFoundException {
         TrackResponseDTO tracks = new TrackResponseDTO();
         boolean insidePlaylist = true;
 
@@ -39,7 +39,7 @@ public class TrackService {
         throw new NotFoundException();
     }
 
-    public TrackResponseDTO deleteTrack(int playlistId, int trackId) throws NotFoundException {
+    public TrackResponseDTO removeTrackFromPlaylist(int playlistId, int trackId) throws NotFoundException {
         TrackResponseDTO tracks = new TrackResponseDTO();
         boolean insidePlaylist = true;
 
